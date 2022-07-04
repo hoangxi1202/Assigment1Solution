@@ -95,6 +95,7 @@ namespace MyStoreWinApp
             {
                 lbCountry.Hide();
                 lbCity.Hide();
+                lbSearch.Hide();
                 lbCountry.Hide();
                 txtSearch.Hide();
                 cmbCity.Hide();

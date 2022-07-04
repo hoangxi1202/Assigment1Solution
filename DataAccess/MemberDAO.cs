@@ -130,5 +130,43 @@ namespace DataAccess
             var sortedList = members.OrderByDescending(x => x.MemberName).ToList();
             return sortedList;
         }
+
+        public IEnumerable<MemberObject> GetMemberByCityAndName(string city, string country)
+        {
+            IDataReader? dataReader = null;
+            string SQLSelect = "Select MemberID, MemberName, Email, Password, City, Country " +
+                " from Members" +
+                " where City = @City and Country =@Country";
+            var members = new List<MemberObject>();
+            try
+            {
+                var param = new List<SqlParameter>();
+                param.Add(dataProvider.CreateParameter("@City", 50, city, DbType.String));
+                param.Add(dataProvider.CreateParameter("@Country", 50, country, DbType.String));
+                dataReader = dataProvider.GetDataReader(SQLSelect, CommandType.Text, out connection, param.ToArray());
+                while (dataReader.Read())
+                {
+                    members.Add(new MemberObject
+                    {
+                        MemberID = dataReader.GetString(0),
+                        MemberName = dataReader.GetString(1),
+                        Email = dataReader.GetString(2),
+                        Password = dataReader.GetString(3),
+                        City = dataReader.GetString(4),
+                        Country = dataReader.GetString(5)
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                dataReader.Close();
+                CloseConnection();
+            }
+            return members;
+        }
     }
 }

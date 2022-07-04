@@ -261,8 +261,5 @@
         private Button btnClose;
         private Button btnSearch;
 
-
-
-
     }
 }

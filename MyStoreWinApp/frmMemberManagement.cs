@@ -15,23 +15,52 @@ namespace MyStoreWinApp
             InitializeComponent();
         }
 
-        private void ClearText()
-        {
-            txtMemberID.Text = string.Empty;
-            txtMemberName.Text = string.Empty;
-            txtEmail.Text = string.Empty;
-            txtPassword.Text = string.Empty;
-            txtCity.Text = string.Empty;
-            txtCountry.Text = string.Empty;
-        }
+
 
         private void frmMemberManagement_Load(object sender, EventArgs e)
         {
-            
+            btnDelete.Enabled = false;
+            if (IsAdmin == false)
+            {
+                btnLoad.Enabled = false;
+                btnSearch.Enabled = false;
+                btnSearch.Enabled = false;
+                btnNew.Enabled = false;
+                var members = new List<MemberObject>();
+                members.Add(Mem);
+                LoadMemberList(members);
+            }
+            //
+            dgvMemberList.CellDoubleClick += DgvCarList_CellDoubleClick;
         }
         private void DgvCarList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+            frmMemberDetail frmMemberDetail = new frmMemberDetail()
+            {
+                Text = "Update Member",
+                InsertOrUpdate = true,
+                MemberInfo = GetMemberObject(),
+                MemberRepository = memberRepository
+            };
+            if (frmMemberDetail.ShowDialog() == DialogResult.OK)
+            {
+
+                if (IsAdmin == false)
+                {
+                    var members = new List<MemberObject>();
+                    members.Add(memberRepository.GetMemberByID(Mem.MemberID));
+                    LoadMemberList(members);
+                }
+                else
+                {
+                    var members = memberRepository.GetMembers();
+                    LoadMemberList(members);
+                }
+                
+                //
+                source.Position = source.Position - 1;
+            }
+
 
 
         }
@@ -79,20 +108,48 @@ namespace MyStoreWinApp
             }
         }
 
-        private void btnLoad_Click(object sender, EventArgs e)
-        {
-            var members = memberRepository.GetMembers();
-            LoadMemberList(members);
-        }
 
         private void btnNew_Click(object sender, EventArgs e)
         {
-            
+
+            frmMemberDetail frmMemberDetail = new frmMemberDetail()
+            {
+                Text = "Add car",
+                InsertOrUpdate = false,
+                MemberRepository = memberRepository
+
+            };
+            if (frmMemberDetail.ShowDialog() == DialogResult.OK)
+            {
+                var members = memberRepository.GetMembers();
+                LoadMemberList(members);
+                source.Position = source.Count - 1;
+            }
+
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            
+
+            if (IsAdmin == false)
+            {
+                btnDelete.Enabled = false;
+            }
+            else
+            {
+                try
+                {
+                    var member = GetMemberObject();
+                    memberRepository.DeleteMember(member.MemberID);
+                    var members1 = memberRepository.GetMembers();
+                    LoadMemberList(members1);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Delete a member");
+                }
+            }
+
         }
 
         private void btnClose_Click(object sender, EventArgs e) => Close();

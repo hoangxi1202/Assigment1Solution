@@ -91,5 +91,31 @@ namespace DataAccess
             }
             return member;
         }
+        public void Remove(string memberID)
+        {
+            try
+            {
+                MemberObject c = GetMemberByID(memberID);
+                if (c != null)
+                {
+                    string SQLDelete = "Delete Members where MemberID = @MemberID";
+                    var param = dataProvider.CreateParameter("@MemberID", 50, memberID, DbType.String);
+                    dataProvider.Delete(SQLDelete, CommandType.Text, param);
+                }
+                else
+                {
+                    throw new Exception("The member does not already exist.");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
     }
 }

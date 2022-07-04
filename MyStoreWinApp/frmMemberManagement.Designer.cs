@@ -260,5 +260,6 @@
         private DataGridView dgvMemberList;
         private Button btnClose;
         private Button btnSearch;
+
     }
 }

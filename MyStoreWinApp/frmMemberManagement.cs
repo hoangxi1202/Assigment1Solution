@@ -10,6 +10,7 @@ namespace MyStoreWinApp
         {
             InitializeComponent();
         }
+
         IMemberRepository memberRepository = new MemberRepository();
         public bool IsAdmin { get; set; }
         public MemberObject Mem { get; set; }
@@ -61,8 +62,10 @@ namespace MyStoreWinApp
             }
 
 
+
         }
         //clear
+
         private void ClearText()
         {
             txtMemberID.Text = string.Empty;
@@ -140,10 +143,16 @@ namespace MyStoreWinApp
         {
             var members = memberRepository.GetMembers();
             LoadMemberList(members);
-        }
+
+       
+        //
+       
+
+        
 
         private void btnNew_Click(object sender, EventArgs e)
         {
+
             frmMemberDetail frmMemberDetail = new frmMemberDetail()
             {
                 Text = "Add car",
@@ -157,10 +166,12 @@ namespace MyStoreWinApp
                 LoadMemberList(members);
                 source.Position = source.Count - 1;
             }
+
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+
             if (IsAdmin == false)
             {
                 btnDelete.Enabled = false;
@@ -179,6 +190,7 @@ namespace MyStoreWinApp
                     MessageBox.Show(ex.Message, "Delete a member");
                 }
             }
+
         }
 
         private void btnClose_Click(object sender, EventArgs e) => Close();
@@ -191,6 +203,7 @@ namespace MyStoreWinApp
                 Members = frmSearch.Members;
                 LoadMemberList(Members);
             }
+
         }
     }
 }

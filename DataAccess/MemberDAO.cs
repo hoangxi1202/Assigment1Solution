@@ -91,5 +91,12 @@ namespace DataAccess
             }
             return member;
         }
+
+        public IEnumerable<MemberObject> SortDesByName()
+        {
+            var members = GetMemberList();
+            var sortedList = members.OrderByDescending(x => x.MemberName).ToList();
+            return sortedList;
+        }
     }
 }

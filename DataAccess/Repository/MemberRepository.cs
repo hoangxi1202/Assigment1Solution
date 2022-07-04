@@ -8,5 +8,6 @@ namespace DataAccess.Repository
 {
     internal class MemberRepository
     {
+         public IEnumerable<MemberObject> SortDesByName() => MemberDAO.Instance.SortDesByName();
     }
 }

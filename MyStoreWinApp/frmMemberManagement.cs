@@ -143,7 +143,7 @@ namespace MyStoreWinApp
         {
             var members = memberRepository.GetMembers();
             LoadMemberList(members);
-
+        }
        
         //
        
@@ -197,13 +197,14 @@ namespace MyStoreWinApp
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            /*
             frmSearch frmSearch = new frmSearch();
             if (frmSearch.ShowDialog() == DialogResult.OK)
             {
                 Members = frmSearch.Members;
                 LoadMemberList(Members);
             }
-
+            */
         }
     }
 }

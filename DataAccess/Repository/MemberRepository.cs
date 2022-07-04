@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BusinessObject;
 
 namespace DataAccess.Repository
 {
-    internal class MemberRepository : IMemberRepository
+    public class MemberRepository : IMemberRepository
     {
 
         public IEnumerable<MemberObject> SortDesByName() => MemberDAO.Instance.SortDesByName();
@@ -58,9 +57,6 @@ namespace DataAccess.Repository
 
 
 
-        public void UpdateMember(MemberObject member)
-        {
-            throw new NotImplementedException();
-
+        public void UpdateMember(MemberObject member) => MemberDAO.Instance.Update(member);
     }
 }

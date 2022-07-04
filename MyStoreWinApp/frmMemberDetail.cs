@@ -9,8 +9,6 @@ namespace MyStoreWinApp
         {
             InitializeComponent();
         }
-
-
         public bool InsertOrUpdate { get; set; }
         public MemberObject MemberInfo { get; set; }
         public IMemberRepository MemberRepository { get; set; }
@@ -27,12 +25,10 @@ namespace MyStoreWinApp
                 txtCity.Text = MemberInfo.City;
                 txtCountry.Text = MemberInfo.Country;
             }
-
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-
             try
             {
                 var member = new MemberObject
@@ -57,7 +53,6 @@ namespace MyStoreWinApp
             {
                 MessageBox.Show(ex.Message, InsertOrUpdate == false ? "Add a new member" : "Update a member");
             }
-
         }
 
         private void btnCancel_Click(object sender, EventArgs e) => Close();

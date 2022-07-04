@@ -1,4 +1,4 @@
-﻿using DataAccess.Repository;
+using DataAccess.Repository;
 using BusinessObject;
 namespace MyStoreWinApp
 {
@@ -39,11 +39,12 @@ namespace MyStoreWinApp
                         MemberObject mem = MemberRepository.GetMemberByEmail(userName);
                         frmMemberManagement = new frmMemberManagement
                         {
-                            IsAdmin = false,
-                            Mem = mem
+                            Mem = mem,
+                            IsAdmin = false
                         };
-                    }
 
+                        
+                    }
                     frmMemberManagement.ShowDialog();
                     this.Close();
                 }
@@ -56,14 +57,14 @@ namespace MyStoreWinApp
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            DialogResult dg = MessageBox.Show("Are you sure to cancel ?", "Cancel", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult dg = MessageBox.Show("Are you sure to cancel ?", "Cancel", MessageBoxButtons.YesNo , MessageBoxIcon.Question);
             if (dg == DialogResult.Yes)
                 Application.Exit();
         }
 
         private void frmLogin_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         private void rdbShowHide_CheckedChanged(object sender, EventArgs e)

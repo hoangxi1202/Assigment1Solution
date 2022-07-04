@@ -207,7 +207,5 @@
         private TextBox txtMemberName;
         private Button btnSave;
         private Button btnCancel;
-
-
     }
 }

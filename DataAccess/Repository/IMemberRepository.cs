@@ -1,4 +1,6 @@
-﻿using BusinessObject;
+﻿using System.Collections;
+using BusinessObject;
+
 namespace DataAccess.Repository
 {
     public interface IMemberRepository
@@ -11,7 +13,7 @@ namespace DataAccess.Repository
         MemberObject GetMemberByEmail(string email);
         IEnumerable<MemberObject> GetMemberByName(string memberName);
         IEnumerable<MemberObject> GetMemberByCityAndCountry(string city, string country);
-
+        
         IEnumerable<MemberObject> SortDesByName();
         bool CheckLogin(string userName, string password);
         bool IsAdmin(string userName, string password);

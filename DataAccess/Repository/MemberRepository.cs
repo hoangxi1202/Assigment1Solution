@@ -10,6 +10,10 @@ namespace DataAccess.Repository;
 public class MemberRepository : IMemberRepository
 {
 
+    public class MemberRepository : IMemberRepository
+    {
+
+
     public IEnumerable<MemberObject> SortDesByName() => MemberDAO.Instance.SortDesByName();
     public IEnumerable<MemberObject> GetMemberByCityAndCountry(string city, string country) => MemberDAO.Instance.GetMemberByCityAndName(city, country);
 
@@ -51,9 +55,7 @@ public class MemberRepository : IMemberRepository
 
 
 
-    public void UpdateMember(MemberObject member)
-    {
-        throw new NotImplementedException();
 
-    }
+        public void UpdateMember(MemberObject member) => MemberDAO.Instance.Update(member);
+
 }

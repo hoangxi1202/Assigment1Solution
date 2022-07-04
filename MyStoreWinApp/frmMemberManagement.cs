@@ -117,8 +117,15 @@ public partial class frmMemberManagement : Form
     }
 
 
-    private void btnNew_Click(object sender, EventArgs e)
-    {
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            var members = memberRepository.GetMembers();
+            LoadMemberList(members);
+        }
+       
+        //
+       
+
 
         frmMemberDetail frmMemberDetail = new frmMemberDetail()
         {
@@ -191,6 +198,7 @@ public partial class frmMemberManagement : Form
         {
             Members = frmSearch.Members;
             LoadMemberList(Members);
+
         }
     }
 }

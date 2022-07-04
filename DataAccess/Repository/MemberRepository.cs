@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Repository
 {
-    internal class MemberRepository : IMemberRepository
+    public class MemberRepository : IMemberRepository
     {
         public bool CheckLogin(string userName, string password)
         {
@@ -34,15 +34,9 @@ namespace DataAccess.Repository
             throw new NotImplementedException();
         }
 
-        public IEnumerable<MemberObject> GetMemberByName(string memberName)
-        {
-            throw new NotImplementedException();
-        }
+        public IEnumerable<MemberObject> GetMemberByName(string member) => MemberDAO.Instance.GetMemberByName(member);
 
-        public IEnumerable<MemberObject> GetMembers()
-        {
-            throw new NotImplementedException();
-        }
+        public IEnumerable<MemberObject> GetMembers() => MemberDAO.Instance.GetMemberList();
 
         public void InsertMember(MemberObject member)
         {

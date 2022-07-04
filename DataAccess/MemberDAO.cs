@@ -117,5 +117,74 @@ namespace DataAccess
                 CloseConnection();
             }
         }
+        public IEnumerable<MemberObject> GetMemberList()
+        {
+            IDataReader dataReader = null;
+            string SQLSelect = "Select MemberID, MemberName, Email, Password, City, Country from Members";
+            var members = new List<MemberObject>();
+            try
+            {
+                dataReader = dataProvider.GetDataReader(SQLSelect, CommandType.Text, out connection);
+                while (dataReader.Read())
+                {
+                    members.Add(new MemberObject
+                    {
+                        MemberID = dataReader.GetString(0),
+                        MemberName = dataReader.GetString(1),
+                        Email = dataReader.GetString(2),
+                        Password = dataReader.GetString(3),
+                        City = dataReader.GetString(4),
+                        Country = dataReader.GetString(5)
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                dataReader.Close();
+                CloseConnection();
+            }
+            return members;
+        }
+
+        public IEnumerable<MemberObject> GetMemberByName(string member)
+        {
+            IDataReader dataReader = null;
+            string SQLSelect = "Select MemberID, MemberName, Email, Password, City, Country " +
+                " from Members" +
+                " where MemberName like @Member or MemberID =@Member";
+            var members = new List<MemberObject>();
+            try
+            {
+                var param = dataProvider.CreateParameter("@Member", 50, "%" + member + "%", DbType.String);
+                dataReader = dataProvider.GetDataReader(SQLSelect, CommandType.Text, out connection, param);
+                while (dataReader.Read())
+                {
+                    members.Add(new MemberObject
+                    {
+                        MemberID = dataReader.GetString(0),
+                        MemberName = dataReader.GetString(1),
+                        Email = dataReader.GetString(2),
+                        Password = dataReader.GetString(3),
+                        City = dataReader.GetString(4),
+                        Country = dataReader.GetString(5)
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                dataReader.Close();
+                CloseConnection();
+            }
+            return members;
+        }
+
     }
 }

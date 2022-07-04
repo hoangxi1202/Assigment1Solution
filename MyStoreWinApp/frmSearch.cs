@@ -36,7 +36,7 @@ namespace MyStoreWinApp
                 txtSearch.Show();
                 cmbCity.Hide();
                 cmbCountry.Hide();
-            }            
+            }
         }
 
         private void cmbCity_SelectedIndexChanged(object sender, EventArgs e)

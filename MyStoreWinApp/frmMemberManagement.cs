@@ -6,47 +6,162 @@ namespace MyStoreWinApp
 {
     public partial class frmMemberManagement : Form
     {
+        IMemberRepository memberRepository = new MemberRepository();
+
+        BindingSource source;
+        public IEnumerable<MemberObject> Members { get; set; }
         public frmMemberManagement()
         {
             InitializeComponent();
         }
-       
+
+
 
         private void frmMemberManagement_Load(object sender, EventArgs e)
         {
-            
+            btnDelete.Enabled = false;
+            if (IsAdmin == false)
+            {
+                btnLoad.Enabled = false;
+                btnSearch.Enabled = false;
+                btnSearch.Enabled = false;
+                btnNew.Enabled = false;
+                var members = new List<MemberObject>();
+                members.Add(Mem);
+                LoadMemberList(members);
+            }
+            //
+            dgvMemberList.CellDoubleClick += DgvCarList_CellDoubleClick;
         }
         private void DgvCarList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+            frmMemberDetail frmMemberDetail = new frmMemberDetail()
+            {
+                Text = "Update Member",
+                InsertOrUpdate = true,
+                MemberInfo = GetMemberObject(),
+                MemberRepository = memberRepository
+            };
+            if (frmMemberDetail.ShowDialog() == DialogResult.OK)
+            {
+
+                if (IsAdmin == false)
+                {
+                    var members = new List<MemberObject>();
+                    members.Add(memberRepository.GetMemberByID(Mem.MemberID));
+                    LoadMemberList(members);
+                }
+                else
+                {
+                    var members = memberRepository.GetMembers();
+                    LoadMemberList(members);
+                }
+                
+                //
+                source.Position = source.Position - 1;
+            }
+
 
 
         }
         //clear
-       
-        //
-       
 
-        private void btnLoad_Click(object sender, EventArgs e)
+        //
+
+        public void LoadMemberList(IEnumerable<MemberObject> members)
         {
-          
+            try
+            {
+                // The BindingSource component is designed to simplify
+                // the process of binding controls to an underlying data source
+                source = new BindingSource();
+                source.DataSource = members;
+                txtMemberID.DataBindings.Clear();
+                txtMemberName.DataBindings.Clear();
+                txtEmail.DataBindings.Clear();
+                txtPassword.DataBindings.Clear();
+                txtCity.DataBindings.Clear();
+                txtCountry.DataBindings.Clear();
+
+                txtMemberID.DataBindings.Add("Text", source, "MemberID");
+                txtMemberName.DataBindings.Add("Text", source, "MemberName");
+                txtEmail.DataBindings.Add("Text", source, "Email");
+                txtPassword.DataBindings.Add("Text", source, "Password");
+                txtCity.DataBindings.Add("Text", source, "City");
+                txtCountry.DataBindings.Add("Text", source, "Country");
+
+                dgvMemberList.DataSource = null;
+                dgvMemberList.DataSource = source;
+                if (members.Count() == 0)
+                {
+                    ClearText();
+                    btnDelete.Enabled = false;
+                }
+                else
+                {
+                    btnDelete.Enabled = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Load member list");
+            }
         }
+
 
         private void btnNew_Click(object sender, EventArgs e)
         {
-            
+
+            frmMemberDetail frmMemberDetail = new frmMemberDetail()
+            {
+                Text = "Add car",
+                InsertOrUpdate = false,
+                MemberRepository = memberRepository
+
+            };
+            if (frmMemberDetail.ShowDialog() == DialogResult.OK)
+            {
+                var members = memberRepository.GetMembers();
+                LoadMemberList(members);
+                source.Position = source.Count - 1;
+            }
+
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            
+
+            if (IsAdmin == false)
+            {
+                btnDelete.Enabled = false;
+            }
+            else
+            {
+                try
+                {
+                    var member = GetMemberObject();
+                    memberRepository.DeleteMember(member.MemberID);
+                    var members1 = memberRepository.GetMembers();
+                    LoadMemberList(members1);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Delete a member");
+                }
+            }
+
         }
 
         private void btnClose_Click(object sender, EventArgs e) => Close();
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            
+            frmSearch frmSearch = new frmSearch();
+            if (frmSearch.ShowDialog() == DialogResult.OK)
+            {
+                Members = frmSearch.Members;
+                LoadMemberList(Members);
+            }
         }
     }
 }

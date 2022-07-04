@@ -26,14 +26,68 @@ namespace MyStoreWinApp
             {
                 case "Search by ID and Name":
                     return 1;
+                case "Fillter by City and Country":
+                    return 2;
+                case "Sort descending order by MemberName":
+                    return 3;
             }
             return 0;
+        }
+        private List<string> getAllCity()
+        {
+            List<string> list = new List<string>();
+            try
+            {
+                var members = memberRepository.GetMembers();
+                list = members.Select(x => x.City).Distinct().ToList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return list;
+        }
+        private List<string> getAllCountry()
+        {
+            List<string> list = new List<string>();
+            try
+            {
+                var members = memberRepository.GetMembers();
+                list = members.Select(x => x.Country).Distinct().ToList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return list;
         }
         private void cmbType_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (Choose() == 1)
             {
                 txtSearch.Show();
+                cmbCity.Hide();
+                cmbCountry.Hide();
+            }
+            else if (Choose() == 2)
+            {
+                txtSearch.Hide();
+
+                cmbCity.Show();
+                foreach (var c in getAllCity())
+                {
+                    cmbCity.Items.Add(c);
+                }
+
+                cmbCountry.Show();
+                foreach (var c in getAllCountry())
+                {
+                    cmbCountry.Items.Add(c);
+                }
+            }
+            else
+            {
+                txtSearch.Hide();
                 cmbCity.Hide();
                 cmbCountry.Hide();
             }
@@ -72,6 +126,34 @@ namespace MyStoreWinApp
                         {
                             Members = memberRepository.GetMemberByName(search);
                         }
+                        break;
+                    case 2:
+                        string city = cmbCity.Text;
+                        if (string.IsNullOrEmpty(city) || city.Equals(" "))
+                        {
+                            found = true;
+                            errors.CityError = "city can not be empty";
+                        }
+
+                        string country = cmbCountry.Text;
+                        if (string.IsNullOrEmpty(country) || country.Equals(" "))
+                        {
+                            found = true;
+                            errors.CountryError = "country can not be empty";
+                        }
+
+                        if (found)
+                        {
+                            MessageBox.Show($"{errors.CityError} \n " +
+                                $"{errors.CountryError}", "Search - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        else
+                        {
+                            Members = memberRepository.GetMemberByCityAndCountry(city, country);
+                        }
+                        break;
+                    case 3:
+                        Members = memberRepository.SortDesByName();
                         break;
                     case 0:
                         MessageBox.Show("Please choose type before", "Search - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

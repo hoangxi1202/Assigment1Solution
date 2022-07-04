@@ -74,9 +74,6 @@ public partial class frmMemberManagement : Form
 
 
     }
-    //clear
-
-    //
 
     public void LoadMemberList(IEnumerable<MemberObject> members)
     {
@@ -127,21 +124,7 @@ public partial class frmMemberManagement : Form
        
 
 
-        frmMemberDetail frmMemberDetail = new frmMemberDetail()
-        {
-            Text = "Add car",
-            InsertOrUpdate = false,
-            MemberRepository = memberRepository
-
-        };
-        if (frmMemberDetail.ShowDialog() == DialogResult.OK)
-        {
-            var members = memberRepository.GetMembers();
-            LoadMemberList(members);
-            source.Position = source.Count - 1;
-        }
-
-    }
+        
     private MemberObject GetMemberObject()
     {
         MemberObject member = null;
@@ -199,6 +182,22 @@ public partial class frmMemberManagement : Form
             Members = frmSearch.Members;
             LoadMemberList(Members);
 
+        }
+    }
+    private void btnNew_Click(object sender, EventArgs e)
+    {
+        frmMemberDetail frmMemberDetail = new frmMemberDetail()
+        {
+            Text = "Add Member",
+            InsertOrUpdate = false,
+            MemberRepository = memberRepository
+
+        };
+        if (frmMemberDetail.ShowDialog() == DialogResult.OK)
+        {
+            var members = memberRepository.GetMembers();
+            LoadMemberList(members);
+            source.Position = source.Count - 1;
         }
     }
 }

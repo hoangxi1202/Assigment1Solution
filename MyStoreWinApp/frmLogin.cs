@@ -29,12 +29,19 @@ namespace MyStoreWinApp
                     frmMemberManagement frmMemberManagement;
                     if (isAdmin)
                     {
-                        frmMemberManagement = new frmMemberManagement(isAdmin);
+                        frmMemberManagement = new frmMemberManagement
+                        {
+                            IsAdmin = true
+                        };
                     }
                     else
                     {
                         MemberObject mem = MemberRepository.GetMemberByEmail(userName);
-                        frmMemberManagement = new frmMemberManagement(isAdmin, mem);
+                        frmMemberManagement = new frmMemberManagement
+                        {
+                            IsAdmin = false,
+                            Mem = mem
+                        };
                     }
 
                     frmMemberManagement.ShowDialog();

@@ -50,8 +50,8 @@ namespace DataAccess
         {
             bool result = false;
             MemberObject c = GetAdminAccount();
-            if(c.Email.Equals(userName) && c.Password.Equals(password))
-                {
+            if (c.Email.Equals(userName) && c.Password.Equals(password))
+            {
                 result = true;
             }
             return result;
@@ -267,7 +267,7 @@ namespace DataAccess
             var members = new List<MemberObject>();
             try
             {
-                var param = dataProvider.CreateParameter("@MemberName", 50, "%"+memberName+"%" , DbType.String);
+                var param = dataProvider.CreateParameter("@MemberName", 50, "%" + memberName + "%", DbType.String);
                 dataReader = dataProvider.GetDataReader(SQLSelect, CommandType.Text, out connection, param);
                 while (dataReader.Read())
                 {
@@ -304,7 +304,7 @@ namespace DataAccess
             {
                 var param = new List<SqlParameter>();
                 param.Add(dataProvider.CreateParameter("@City", 50, city, DbType.String));
-                param.Add(dataProvider.CreateParameter("@Country", 50,country, DbType.String));
+                param.Add(dataProvider.CreateParameter("@Country", 50, country, DbType.String));
                 dataReader = dataProvider.GetDataReader(SQLSelect, CommandType.Text, out connection, param.ToArray());
                 while (dataReader.Read())
                 {

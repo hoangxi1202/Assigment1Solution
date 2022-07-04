@@ -55,7 +55,7 @@ namespace MyStoreWinApp
                     var members = memberRepository.GetMembers();
                     LoadMemberList(members);
                 }
-                
+
                 //
                 source.Position = source.Position - 1;
             }

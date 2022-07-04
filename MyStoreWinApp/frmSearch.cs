@@ -1,7 +1,5 @@
-﻿using System;
-using DataAccess.Repository;
+﻿using DataAccess.Repository;
 using BusinessObject;
-using System.Text.RegularExpressions;
 
 namespace MyStoreWinApp
 {
@@ -19,6 +17,9 @@ namespace MyStoreWinApp
             txtSearch.Hide();
             cmbCity.Hide();
             cmbCountry.Hide();
+            lbCity.Hide();
+            lbCountry.Hide();
+            lbSearch.Hide();    
         }
         private int Choose()
         {
@@ -66,19 +67,24 @@ namespace MyStoreWinApp
             if (Choose() == 1)
             {
                 txtSearch.Show();
+                lbSearch.Show();
+                lbCity.Hide();
+                lbCountry.Hide();
                 cmbCity.Hide();
                 cmbCountry.Hide();
             }
             else if (Choose() == 2)
             {
                 txtSearch.Hide();
+                lbSearch.Hide();
 
+                lbCity.Show();
                 cmbCity.Show();
                 foreach (var c in getAllCity())
                 {
                     cmbCity.Items.Add(c);
                 }
-
+                lbCountry.Show();
                 cmbCountry.Show();
                 foreach (var c in getAllCountry())
                 {
@@ -87,6 +93,9 @@ namespace MyStoreWinApp
             }
             else
             {
+                lbCountry.Hide();
+                lbCity.Hide();
+                lbCountry.Hide();
                 txtSearch.Hide();
                 cmbCity.Hide();
                 cmbCountry.Hide();
@@ -116,7 +125,7 @@ namespace MyStoreWinApp
                         if (string.IsNullOrEmpty(search) || search.Equals(" "))
                         {
                             found = true;
-                            errors.SearchIDNameError = "search can not be empty";
+                            errors.SearchIDNameError = "Search can not be empty";
                         }
                         if (found)
                         {
@@ -168,12 +177,12 @@ namespace MyStoreWinApp
                 MessageBox.Show(ex.Message);
             }
         }
+
         public record SearchError()
         {
             public string? SearchIDNameError { get; set; }
             public string? CityError { get; set; }
             public string? CountryError { get; set; }
-
 
         }
     }

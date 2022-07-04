@@ -6,16 +6,26 @@ namespace MyStoreWinApp
 {
     public partial class frmMemberManagement : Form
     {
-        IMemberRepository memberRepository = new MemberRepository();
+        MemberRepository memberRepository = new MemberRepository();
+        public bool IsAdmin { get; set; }
+        public MemberObject Mem { get; set; }
+        public IEnumerable<MemberObject> Members { get; set; }
 
         BindingSource source;
-        public IEnumerable<MemberObject> Members { get; set; }
         public frmMemberManagement()
         {
             InitializeComponent();
         }
 
-
+        private void ClearText()
+        {
+            txtMemberID.Text = string.Empty;
+            txtMemberName.Text = string.Empty;
+            txtEmail.Text = string.Empty;
+            txtPassword.Text = string.Empty;
+            txtCity.Text = string.Empty;
+            txtCountry.Text = string.Empty;
+        }
 
         private void frmMemberManagement_Load(object sender, EventArgs e)
         {
